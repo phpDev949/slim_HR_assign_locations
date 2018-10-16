@@ -45,7 +45,7 @@ class EmployeeController
         $msql_loc = $this->container->get('pdo')->prepare("SELECT * FROM assigned_locations");
         $msql_loc->execute();
         $ml_ids = $msql_loc->fetchAll();
-        //print_r($res_loc);
+        //print_r($ml_ids);
         $results = array('em' => $em, 'job_ids' => $job_ids, 'loc_ids' => $loc_ids, 'ml_ids' => $ml_ids);
         $this->container->get('logger')->info("Employee edit page action dispatched");
 	//$this->container['view']->render($response, 'home.twig');
@@ -95,10 +95,18 @@ class EmployeeController
 	$a_list = array();
 	//print_r($a_ch);
 	for ($i=0;$i<$a_cnt;$i++) {
-		$aa = 'assigned_loc_' . $a_ch[$i]['id'];
+		$ab = $a_ch[$i]['id'];
+		$aa = 'assigned_loc_' . $ab;
 		array_push($a_list,$aa);
 		if ($data[$aa] != NULL) {
-			echo 'XXXX = ' . $data[$aa];
+			$q = $this->container->get('pdo')->prepare("UPDATE assigned_locations SET location_name = '$data[$aa]' WHERE id = $ab");
+			$q->execute();
+			$response->getBody()->write('Location name updated.../n');
+		} else {
+			$q = $this->container->get('pdo')->prepare("DELETE FROM assigned_locations WHERE id = $ab");
+			$q->execute();
+			$response->getBody()->write('Location name deleted.../n');
+			
 		}
 	}
 	/////// update assigned_locations //////////
