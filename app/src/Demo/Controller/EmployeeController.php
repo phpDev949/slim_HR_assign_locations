@@ -94,6 +94,7 @@ class EmployeeController
 	$a_cnt = count($a_ch);
 	$a_list = array();
 	//print_r($a_ch);
+	/////// update assigned_locations //////////
 	for ($i=0;$i<$a_cnt;$i++) {
 		$ab = $a_ch[$i]['id'];
 		$aa = 'assigned_loc_' . $ab;
@@ -109,25 +110,6 @@ class EmployeeController
 			
 		}
 	}
-	/////// update assigned_locations //////////
-	//for ($i=0;$i<$a_ch;$i++) {
-	//	$ab = $a_list[$i];
-	//	if ($data['$ab'] == NULL) {
-	//		echo 'NULL   AAAAA';
- 	//	} else {
-	//		echo 'NOTNULL    BBBBB';
-	//	}
-	//}	
-	print_r($a_list);
-	//if($l_ch != $e_res[0]['location_id']) {
-	//	if($e_res[0]['location_id'] == NULL) {
-	//		$response->getBody()->write('No such location exist.../n');
-	//	} else {
-	//		$q = $this->container->get('pdo')->prepare("UPDATE employees SET location_id = $l_ch WHERE id = $d_id");
-	//		$q->execute();
-	//		$response->getBody()->write('Location name updated.../n');
-	//	}
-	//}
 	if($d_fn != $e_res[0]['first_name']) {
 		if($d_fn == NULL) {
 			$response->getBody()->write('No first name has been provided.../n');
@@ -161,8 +143,8 @@ class EmployeeController
 		$q->execute();
 		$response->getBody()->write('New location has been added.../n');
 	}
-	return $response;
-	//return $response->withRedirect('/api/employees');
+	//return $response;
+	return $response->withRedirect('/api/employees');
     }
 
     public function addEmployee(Request $request, Response $response, array $args = null) :Response
