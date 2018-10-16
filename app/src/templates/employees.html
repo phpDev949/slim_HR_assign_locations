@@ -14,7 +14,7 @@
                 <th>Last Name</th>
                 <th>Email</th>
                 <th>Job Title</th>
-                <th>Assigned Locations [ ID ]</th>
+                <th>[ID] Assigned Locations</th>
                 <th colspan="2" align="center">Actions</th>
             </tr>
         </thead>
@@ -30,7 +30,7 @@
                 <td>
                 {% for a in data.loc %}
                 {% if a.employee_id == row.id %}
-                        {{ a.location_name }} [ {{ a.loc_id }} ]<br>
+                        [ {{ a.loc_id }} ] {{ a.location_name }}<br>
                 {% endif %}
                 {% endfor %}
                 </td>
