@@ -20,26 +20,20 @@
         </thead>
         <tbody id="myTable">
             {% if data %}
-            {% for row in data.em %}
+            {% for row in data %}
             <tr>
                 <td>{{ row.id }}</td>
                 <td>{{ row.first_name }}</td>
                 <td>{{ row.last_name }}</td>
                 <td>{{ row.email }}</td>
                 <td>{{ row.job_title }}</td>
-                <td>
-            	{% if data.loc.employee_id == row.id %}
-            	{% for a in data.loc %}
-			{{ a.location_name }}<br>
-            	{% endfor %} 
-            	{% endif %}
-		</td>
+                <td></td>
                 <td><a href="/api/employee_edit/{{row.id}}" class="btn btn-info">Edit</a></td>
                 <td>
                     <form action="/api/employee_delete/{{row.id}}" method="POST"> 
                         <input class="btn btn-danger" type = "submit" value ="Delete">
                         <input type="hidden" id="delete" name="delete" value="1">
-                        <input type="hidden" id="id" name="id" value="{{row.em.id}}">
+                        <input type="hidden" id="id" name="id" value="{{row.id}}">
                     </form>
                 </td>
             </tr>
