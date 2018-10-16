@@ -31,7 +31,7 @@ class EmployeeController
 	$id=$args['id'];
         ////// get employees table from project ////// 
 	//$sql = $this->container->get('pdo')->prepare("SELECT * FROM employees;");
-	$sql = $this->container->get('pdo')->prepare("SELECT em.id, first_name, last_name, email, jo.job_title, lo.location_name FROM employees AS em INNER JOIN job_titles AS jo ON em.job_title_id = jo.id INNER JOIN locations AS lo ON em.location_id = lo.id WHERE em.id=$id");
+	$sql = $this->container->get('pdo')->prepare("SELECT em.id, first_name, last_name, email, jo.job_title FROM employees AS em INNER JOIN job_titles AS jo ON em.job_title_id = jo.id WHERE em.id=$id");
 	//$sql->bindParam("id", $args['id']);
         //var_dump($sql);
 	$sql->execute();
@@ -51,7 +51,7 @@ class EmployeeController
 	$d_ln = $data['last_name'];
 	$d_e = $data['email'];
 	$dj = $data['job_title'];
-	$lj = $data['location_name'];
+	//$lj = $data['location_name'];
 	//print_r($data);
         /////// edit existing employee by checking if any changes from the DB /////	
 	$e_sql = $this->container->get('pdo')->prepare("SELECT * FROM employees WHERE id = $d_id;");
@@ -83,15 +83,15 @@ class EmployeeController
 	$l_change1 = $loc_change1->fetch();
 	//print_r($l_change1);
 	$l_ch = $l_change1['id'];
-	if($l_ch != $e_res[0]['location_id']) {
-		if($e_res[0]['location_id'] == NULL) {
-			$response->getBody()->write('No such location exist.../n');
-		} else {
-			$q = $this->container->get('pdo')->prepare("UPDATE employees SET location_id = $l_ch WHERE id = $d_id");
-			$q->execute();
-			$response->getBody()->write('Location name updated.../n');
-		}
-	}
+	//if($l_ch != $e_res[0]['location_id']) {
+	//	if($e_res[0]['location_id'] == NULL) {
+	//		$response->getBody()->write('No such location exist.../n');
+	//	} else {
+	//		$q = $this->container->get('pdo')->prepare("UPDATE employees SET location_id = $l_ch WHERE id = $d_id");
+	//		$q->execute();
+	//		$response->getBody()->write('Location name updated.../n');
+	//	}
+	//}
 	if($d_fn != $e_res[0]['first_name']) {
 		if($d_fn == NULL) {
 			$response->getBody()->write('No first name has been provided.../n');
@@ -132,11 +132,12 @@ class EmployeeController
 	$d_ln = $data['last_name'];
 	$d_e = $data['email'];
 	$dj = $data['job_title'];
-	$lj = $data['location_name'];
+	//$lj = $data['location_name'];
 	//print_r($data);
         /////// insert into DB //////////
 	if ( $d_fn != NULL && $d_ln != NULL && $d_e != NULL) { 
-			$q = $this->container->get('pdo')->prepare("INSERT INTO employees (id,first_name,last_name,email,job_title_id,location_id) VALUES (NULL, '$d_fn', '$d_ln', '$d_e', $dj, $lj);");
+			//$q = $this->container->get('pdo')->prepare("INSERT INTO employees (id,first_name,last_name,email,job_title_id,location_id) VALUES (NULL, '$d_fn', '$d_ln', '$d_e', $dj, $lj);");
+			$q = $this->container->get('pdo')->prepare("INSERT INTO employees (id,first_name,last_name,email,job_title_id) VALUES (NULL, '$d_fn', '$d_ln', '$d_e', $dj);");
 			$q->execute();
 			$response->getBody()->write('New employee inserted.../n');
 
