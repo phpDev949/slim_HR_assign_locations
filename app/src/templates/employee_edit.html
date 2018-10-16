@@ -33,13 +33,27 @@
         <div class="form-group">
             <label for="name">Locations</label>
         </div>
+        {% for mids in results.ml_ids %}
+	{% if mids.employee_id == results.em.id %}
         {% for ids in results.loc_ids %}
         <div class="form-group">
-            <select class="form-control" id="location_name_{{ids.id}}" name="location_name_{{ids.id}}">
-                        <option value="{{ids.id}}">{{ids.location_name}}</option>
-            </select>
+		{% if mids.location_name == ids.location_name %}
+            		<select class="form-control" id="location_name_{{ids.id}}" name="location_name_{{ids.id}}">
+
+        			{% for lids in results.loc_ids %}
+				{% if lids.location_name == mids.location_name %}
+                        	<option value="{{lids.id}}" selected>{{lids.location_name}}</option>
+				{% else %}
+                        	<option value="{{lids.id}}">{{lids.location_name}}</option>
+				{% endif %}
+				{% endfor %}
+            		</select>
+		{% endif %}
         </div>
         {% endfor %}
+	{% endif %}
+        {% endfor %}
+
 
         <div class="form-group">
             <input type="hidden" id="id" name="id" value="{{results.em.id}}">
