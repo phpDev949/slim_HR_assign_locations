@@ -36,7 +36,6 @@ class EmployeeController
         //var_dump($sql);
 	$sql->execute();
 	$data = $sql->fetch();
-        //$this->container['logger']->info("Home page action dispatched");
         $this->container->get('logger')->info("Employee edit page action dispatched");
 	//$this->container['view']->render($response, 'home.twig');
 	//$this->container->get('view')->render($response, 'employee_edit.html');
@@ -58,7 +57,7 @@ class EmployeeController
 	$e_sql = $this->container->get('pdo')->prepare("SELECT * FROM employees WHERE id = $d_id;");
 	$e_sql->execute();
 	$e_res = $e_sql->fetchAll();
-	var_dump($e_res);
+	//var_dump($e_res);
         /////// first check if any change in job_title or locations (ids) from database)
 	$job_change1 = $this->container->get('pdo')->prepare("SELECT id FROM job_titles WHERE job_title = '$dj'");
 	$job_change1->execute();
@@ -126,10 +125,40 @@ class EmployeeController
 
     public function addEmployee(Request $request, Response $response, array $args = null) :Response
     {
-        /////// create new employee 
-	//$sql = $this->container->get('pdo')->prepare("SELECT * FROM employees;");
+	$data = $request->getParams();
+	var_dump($action);
+//	$d_fn = $data['first_name'];
+//	$d_ln = $data['last_name'];
+//	$d_e = $data['email'];
+//	$dj = $data['job_title'];
+//	$lj = $data['location_name'];
+	//print_r($data);
+        /////// first get job_title or locations (ids) from database)
 
+        $this->container->get('logger')->info("Employee add page action dispatched");
+	//$this->container['view']->render($response, 'home.twig');
+	//$this->container->get('view')->render($response, 'employee_edit.html');
+	$this->container->get('view')->render($response, 'employee_add.html', array('results' => $results));
         return $response;
     }
+
+   public function getJ_Lids(Request $request, Response $response, array $args = null) : Response 
+   {
+	$action=$args['action'];
+        /////// first get job_title or locations (ids) from database)
+	$job_ids = $this->container->get('pdo')->prepare("SELECT * FROM job_titles");
+	$job_ids->execute();
+	$j_ids = $job_ids->fetchAll();
+	$loc_ids = $this->container->get('pdo')->prepare("SELECT * FROM locations");
+	$loc_ids->execute();
+	$l_ids = $loc_ids->fetchAll();
+	$results = array('job_ids' => $j_ids,'loc_ids' => $l_ids);
+	//var_dump($results);
+        $this->container->get('logger')->info("Employee add page action dispatched");
+	//$this->container['view']->render($response, 'home.twig');
+	//$this->container->get('view')->render($response, 'employee_edit.html');
+	$this->container->get('view')->render($response, 'employee_add.html', array('results' => $results));
+	return $response;
+   }
     
 }
