@@ -34,7 +34,7 @@ class EmployeesController
         $sql = $this->container->get('pdo')->prepare("SELECT em.id, first_name, last_name, email, jo.job_title FROM employees AS em INNER JOIN job_titles AS jo ON em.job_title_id = jo.id");
         $sql->execute();
         $em = $sql->fetchAll();
-        $sql_loc = $this->container->get('pdo')->prepare("SELECT * FROM assigned_locations;");
+        $sql_loc = $this->container->get('pdo')->prepare("SELECT al.id, al.employee_id, al.location_name, lo.id AS loc_id FROM assigned_locations AS al INNER JOIN locations lo ON al.location_name = lo.location_name");
         $sql_loc->execute();
         $loc = $sql_loc->fetchAll();
         //print_r($res_loc);
