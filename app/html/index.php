@@ -64,7 +64,8 @@ $app->group('/', function () {
 $app->group('/api', function () {
     //$this->get('', \Demo\Controller\HomeController::class . ':getHome')->setName('home-page');
     $this->get('/employees', \Demo\Controller\EmployeesController::class . ':getEmployees')->setName('employees-page');
-    $this->get('/employee_edit/[{id}]', \Demo\Controller\EmployeeController::class . ':getEmployee')->setName('edit-employee-page');
+    $this->get('/employee_edit/[{id}]', \Demo\Controller\EmployeeController::class . ':getEmployee')->setName('get-employee-page');
+    $this->post('/employee_edit', \Demo\Controller\EmployeeController::class . ':editEmployee')->setName('edit-employee-page');
     
 });
 
