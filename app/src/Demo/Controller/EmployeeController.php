@@ -35,11 +35,22 @@ class EmployeeController
 	//$sql->bindParam("id", $args['id']);
         //var_dump($sql);
 	$sql->execute();
-	$data = $sql->fetch();
+	$em = $sql->fetch();
+        $sql_job = $this->container->get('pdo')->prepare("SELECT * FROM job_titles");
+        $sql_job->execute();
+        $job_ids = $sql_job->fetchAll();
+        $sql_loc = $this->container->get('pdo')->prepare("SELECT * FROM locations");
+        $sql_loc->execute();
+        $loc_ids = $sql_loc->fetchAll();
+        $msql_loc = $this->container->get('pdo')->prepare("SELECT * FROM assigned_locations");
+        $msql_loc->execute();
+        $ml_ids = $msql_loc->fetchAll();
+        //print_r($res_loc);
+        $results = array('em' => $em, 'job_ids' => $job_ids, 'loc_ids' => $loc_ids, 'ml_ids' => $ml_ids);
         $this->container->get('logger')->info("Employee edit page action dispatched");
 	//$this->container['view']->render($response, 'home.twig');
 	//$this->container->get('view')->render($response, 'employee_edit.html');
-	$this->container->get('view')->render($response, 'employee_edit.html', array('data' => $data));
+	$this->container->get('view')->render($response, 'employee_edit.html', array('results' => $results));
 	return $response;
     }
 
