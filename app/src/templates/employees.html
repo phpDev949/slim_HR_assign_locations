@@ -2,7 +2,7 @@
 
 {% block content %}
 <h1>All Employees Listing</h1>
-  <p>Type something in the input field to search the table for first names, last names or emails:</p>  
+  <p>Type something in the input field to search the table for first names, last names or emails:</p>
   <input class="form-control" id="myInput" type="text" placeholder="Search..">
   <br><div><a href="/api/employee_add/create" class="btn btn-info">Add New Employee</a></div>
 <div class="bs-example">
@@ -14,31 +14,37 @@
                 <th>Last Name</th>
                 <th>Email</th>
                 <th>Job Title</th>
-                <th>Assigned Locations</th>
+                <th>Assigned Locations [ ID ]</th>
                 <th colspan="2" align="center">Actions</th>
             </tr>
         </thead>
         <tbody id="myTable">
             {% if data %}
-            {% for row in data %}
+            {% for row in data.em %}
             <tr>
                 <td>{{ row.id }}</td>
                 <td>{{ row.first_name }}</td>
                 <td>{{ row.last_name }}</td>
                 <td>{{ row.email }}</td>
                 <td>{{ row.job_title }}</td>
-                <td></td>
+                <td>
+                {% for a in data.loc %}
+                {% if a.employee_id == row.id %}
+                        {{ a.location_name }} [ {{ a.loc_id }} ]<br>
+                {% endif %}
+                {% endfor %}
+                </td>
                 <td><a href="/api/employee_edit/{{row.id}}" class="btn btn-info">Edit</a></td>
                 <td>
-                    <form action="/api/employee_delete/{{row.id}}" method="POST"> 
+                    <form action="/api/employee_delete/{{row.id}}" method="POST">
                         <input class="btn btn-danger" type = "submit" value ="Delete">
                         <input type="hidden" id="delete" name="delete" value="1">
-                        <input type="hidden" id="id" name="id" value="{{row.id}}">
+                        <input type="hidden" id="id" name="id" value="{{row.em.id}}">
                     </form>
                 </td>
             </tr>
 
-            {% endfor %} 
+            {% endfor %}
             {% else %}
             <p>No records found</p>
             {% endif %}
