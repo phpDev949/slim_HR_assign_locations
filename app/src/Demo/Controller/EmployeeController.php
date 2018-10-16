@@ -36,9 +36,11 @@ class EmployeeController
         //var_dump($sql);
 	$sql->execute();
 	$em = $sql->fetch();
+var_dump($em);
         $sql_job = $this->container->get('pdo')->prepare("SELECT * FROM job_titles");
         $sql_job->execute();
         $job_ids = $sql_job->fetchAll();
+var_dump($job_ids);
         $sql_loc = $this->container->get('pdo')->prepare("SELECT * FROM locations");
         $sql_loc->execute();
         $loc_ids = $sql_loc->fetchAll();
