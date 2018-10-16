@@ -126,20 +126,26 @@ class EmployeeController
     public function addEmployee(Request $request, Response $response, array $args = null) :Response
     {
 	$data = $request->getParams();
-	var_dump($action);
-//	$d_fn = $data['first_name'];
-//	$d_ln = $data['last_name'];
-//	$d_e = $data['email'];
-//	$dj = $data['job_title'];
-//	$lj = $data['location_name'];
+	$action = $args['action'];
+	//var_dump($action);
+	$d_fn = $data['first_name'];
+	$d_ln = $data['last_name'];
+	$d_e = $data['email'];
+	$dj = $data['job_title'];
+	$lj = $data['location_name'];
 	//print_r($data);
-        /////// first get job_title or locations (ids) from database)
+        /////// insert into DB //////////
+	if ( $d_fn != NULL && $d_ln != NULL && $d_e != NULL) { 
+			$q = $this->container->get('pdo')->prepare("INSERT INTO employees (id,first_name,last_name,email,job_title_id,location_id) VALUES (NULL, '$d_fn', '$d_ln', '$d_e', $dj, $lj);");
+			$q->execute();
+			$response->getBody()->write('New employee inserted.../n');
 
+	}	  
         $this->container->get('logger')->info("Employee add page action dispatched");
 	//$this->container['view']->render($response, 'home.twig');
 	//$this->container->get('view')->render($response, 'employee_edit.html');
 	$this->container->get('view')->render($response, 'employee_add.html', array('results' => $results));
-        return $response;
+	return $response->withRedirect('/api/employees');
     }
 
    public function getJ_Lids(Request $request, Response $response, array $args = null) : Response 
@@ -158,7 +164,24 @@ class EmployeeController
 	//$this->container['view']->render($response, 'home.twig');
 	//$this->container->get('view')->render($response, 'employee_edit.html');
 	$this->container->get('view')->render($response, 'employee_add.html', array('results' => $results));
+
 	return $response;
    }
     
+    public function deleteEmployee(Request $request, Response $response, array $args = null) :Response
+   {
+	$id=$args['id'];
+        /////// delete from DB //////////
+	if ( $id != NULL) { 
+			$q = $this->container->get('pdo')->prepare("DELETE FROM employees WHERE id = $id");
+			$q->execute();
+			$response->getBody()->write('Eemployee deleted inserted.../n');
+
+	}	  
+        $this->container->get('logger')->info("Employee deleted page action dispatched");
+	//$this->container['view']->render($response, 'home.twig');
+	//$this->container->get('view')->render($response, 'employee_edit.html');
+	return $response->withRedirect('/api/employees');
+    }
+
 }

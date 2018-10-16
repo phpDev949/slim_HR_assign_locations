@@ -66,6 +66,8 @@ $app->group('/api', function () {
     $this->get('/employees', \Demo\Controller\EmployeesController::class . ':getEmployees')->setName('employees-page');
     $this->get('/employee_edit/[{id}]', \Demo\Controller\EmployeeController::class . ':getEmployee')->setName('get-employee-page');
     $this->post('/employee_edit', \Demo\Controller\EmployeeController::class . ':editEmployee')->setName('edit-employee-page');
+    $this->get('/employee_add/[{action}]', \Demo\Controller\EmployeeController::class . ':getJ_Lids')->setName('create-employee-page');
+    $this->post('/employee_add', \Demo\Controller\EmployeeController::class . ':addEmployee')->setName('add-employee-page');
     
 });
 
