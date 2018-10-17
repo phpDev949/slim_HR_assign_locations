@@ -40,7 +40,6 @@ CREATE TABLE `assigned_locations` (
 
 INSERT INTO `assigned_locations` (`id`, `employee_id`, `location_name`) VALUES
 (1, 1, 'Anas bahamensis'),
-(2, 2, 'Notechis semmiannulatus'),
 (3, 3, 'Climacteris melanura'),
 (4, 4, 'Varanus sp.'),
 (5, 5, 'Sus scrofa'),
